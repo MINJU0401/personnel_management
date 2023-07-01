@@ -1,5 +1,7 @@
 package com.example.employee.dto.request.employee;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +21,7 @@ public class PostEmployeeRequestDto {
   private String dateOfHire;
   @NotNull
   private Integer salary;
-  private String benefits;
+  private List<String> benefits;
   @NotBlank
   private String workingHours;
   @NotBlank
