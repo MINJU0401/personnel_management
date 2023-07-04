@@ -10,9 +10,9 @@ import com.example.employee.dto.response.ResponseDto;
 import com.example.employee.dto.request.employee.PatchEmployeeInfoRequestDto;
 import com.example.employee.dto.request.employee.PostEmployeeRequestDto;
 
-public interface EmployeeService {
+public interface EmployeesService {
 
-  ResponseEntity<ResponseDto> postEmployee(@Valid PostEmployeeRequestDto requestBody);
+  ResponseEntity<ResponseDto> postEmployee(PostEmployeeRequestDto dto);
 
   ResponseEntity<? super GetEmployeeResponseDto> getEmployeeInfo(Integer employeeId);
 

@@ -5,10 +5,8 @@ import java.util.List;
 
 import com.example.employee.dto.response.ResponseDto;
 import com.example.employee.entity.BenefitsEntity;
-import com.example.employee.entity.DepartmentsEntity;
 import com.example.employee.entity.EmployeesEntity;
-import com.example.employee.entity.PositionsEntity;
-import com.example.employee.entity.StatusEntity;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,19 +28,19 @@ public class GetEmployeeResponseDto extends ResponseDto {
   private String workingHours;
   private String status;
 
-  public GetEmployeeResponseDto(EmployeesEntity employeeEntity, DepartmentsEntity departmentsEntity, PositionsEntity positionsEntity, StatusEntity statusEntity, List<BenefitsEntity> benefitEntities
+  public GetEmployeeResponseDto(EmployeesEntity employeesEntity, List<BenefitsEntity> benefitEntities
   ) {
     super("SU", "Success");
 
-    this.employeeId = employeeEntity.getEmployeeId();
-    this.name = employeeEntity.getName();
-    this.position = positionsEntity.getPosition();
-    this.department = departmentsEntity.getDepartment();
-    this.dateOfHire = employeeEntity.getDateOfHire();
-    this.salary = employeeEntity.getSalary();
+    this.employeeId = employeesEntity.getEmployeeId();
+    this.name = employeesEntity.getName();
+    this.position = employeesEntity.getPosition();
+    this.department = employeesEntity.getDepartment();
+    this.dateOfHire = employeesEntity.getDateOfHire();
+    this.salary = employeesEntity.getSalary();
     this.benefits = Benefits.benefitList(benefitEntities);
-    this.workingHours = employeeEntity.getWorkingHours();
-    this.status = statusEntity.getStatus();
+    this.workingHours = employeesEntity.getWorkingHours();
+    this.status = employeesEntity.getStatus();
   }
 }
 
@@ -54,9 +52,9 @@ class Benefits {
   private Integer employeeId;
   private String benefit;
 
-  Benefits(BenefitsEntity benefitEntity) {
-    this.employeeId = benefitEntity.getEmployeeId();
-    this.benefit = benefitEntity.getBenefit();
+  Benefits(BenefitsEntity benefitsEntity) {
+    this.employeeId = benefitsEntity.getEmployeeId();
+    this.benefit = benefitsEntity.getBenefit();
   }
 
   static List<Benefits> benefitList(List<BenefitsEntity> benefitEntities) {

@@ -18,26 +18,22 @@ import com.example.employee.dto.response.employee.GetEmployeeResponseDto;
 import com.example.employee.dto.request.employee.PostEmployeeRequestDto;
 import com.example.employee.dto.request.employee.PatchEmployeeInfoRequestDto;
 import com.example.employee.dto.response.ResponseDto;
-import com.example.employee.service.EmployeeService;
+import com.example.employee.service.EmployeesService;
 
 @RestController
 @RequestMapping("api/v1/employees")
-public class EmployeeController {
+public class EmployeesController {
   
-  private EmployeeService employeeService;
-
   @Autowired
-  public EmployeeController(EmployeeService employeeService) {
-    this.employeeService = employeeService;
-  }
+  private EmployeesService employeesService;
 
   // 사원 등록
   @PostMapping("")
   public ResponseEntity<ResponseDto> postEmployee(
-    @Valid @RequestBody PostEmployeeRequestDto requestBody
+      @Valid @RequestBody PostEmployeeRequestDto requestBody
   ) {
-    ResponseEntity<ResponseDto> response = employeeService.postEmployee(requestBody);
-    return response;
+      ResponseEntity<ResponseDto> response = employeesService.postEmployee(requestBody);
+      return response;
   }
 
   // 특정 사원 정보 조회
@@ -46,7 +42,7 @@ public class EmployeeController {
     @PathVariable("employeeId") Integer employeeId
   ) {
     ResponseEntity<? super GetEmployeeResponseDto> response =
-      employeeService.getEmployeeInfo(employeeId);
+      employeesService.getEmployeeInfo(employeeId);
       return response;
   }
 
@@ -54,7 +50,7 @@ public class EmployeeController {
   @GetMapping("list")
   public ResponseEntity<? super GetEmployeeListResponseDto> getEmployeeList() {
     ResponseEntity<? super GetEmployeeListResponseDto> response = 
-      employeeService.getEmployeeList();
+      employeesService.getEmployeeList();
       return response;
   }
 
@@ -64,7 +60,7 @@ public class EmployeeController {
     @Valid @RequestBody PatchEmployeeInfoRequestDto requestBody
     ) {
       ResponseEntity<ResponseDto> response = 
-        employeeService.patchEmployeeInfo(requestBody);
+        employeesService.patchEmployeeInfo(requestBody);
         return response;
     }
 
@@ -74,7 +70,7 @@ public class EmployeeController {
     @PathVariable("employeeId") Integer employeeId
   ) {
     ResponseEntity<ResponseDto> response =
-      employeeService.deleteEmployee(employeeId);
+      employeesService.deleteEmployee(employeeId);
       return response;
   }
 }

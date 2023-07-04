@@ -6,15 +6,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.SimpleTimeZone;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 import com.example.employee.dto.request.employee.PostEmployeeRequestDto;
+import com.example.employee.entity.BenefitsEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +31,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="employees")
 @Table(name="employees")
 public class EmployeesEntity {
+
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name = "employee_id")
@@ -41,7 +47,16 @@ public class EmployeesEntity {
   @Column(name = "working_hours")
   private String workingHours;
 
-  public EmployeesEntity(EmployeesEntity employeesEntity, PostEmployeeRequestDto dto) {
+  private String department;
+
+  private String position;
+
+  @OneToMany(mappedBy = "employeeId", cascade = CascadeType.ALL)
+  private List<BenefitsEntity> benefits;
+
+  private String status;
+
+  public EmployeesEntity(PostEmployeeRequestDto dto) {
 
     Date hireDate = new Date();
     SimpleDateFormat simpleDateFormat = 
@@ -57,6 +72,10 @@ public class EmployeesEntity {
     this.dateOfHire = dto.getDateOfHire();
     this.salary = dto.getSalary();
     this.workingHours = dto.getWorkingHours();
+    this.department = dto.getDepartment();
+    this.position = dto.getPosition();
+    this.status = dto.getStatus();
         
   }
+
 }
