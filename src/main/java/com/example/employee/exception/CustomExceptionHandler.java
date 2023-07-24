@@ -13,11 +13,11 @@ import com.example.employee.dto.response.ResponseDto;
 public class CustomExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseDto> handlerHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
-        return CustomResponse.vaildationFaild();
+        return CustomResponse.vaildationFailed();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDto> handlerMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return CustomResponse.vaildationFaild();
+        return CustomResponse.vaildationFailed();
     }
   }

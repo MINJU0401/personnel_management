@@ -11,6 +11,8 @@ public interface EmployeesRepository extends JpaRepository<EmployeesEntity, Stri
 
   public boolean existsByName(String name);
 
+  public EmployeesEntity findByEmployeeId(Integer EmployeeId);
+
 
   
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,7 +64,28 @@ public EmployeesServiceImplement(EmployeesRepository employeesRepository, Benefi
   @Override
   public ResponseEntity<? super GetEmployeeResponseDto> getEmployeeInfo(Integer employeeId) {
 
-      return CustomResponse.success();
+    if (employeeId == null)
+    return CustomResponse.vaildationFailed();
+
+    GetEmployeeResponseDto body = null;
+    List<BenefitsEntity> benefitsList = new ArrayList<>();
+
+    try {
+      EmployeesEntity employeesEntity = employeesRepository.findByEmployeeId(employeeId);
+      if (employeesEntity == null)
+          return CustomResponse.nonExistsEmployeeIdError();
+
+      List<BenefitsEntity> benefitsEntities = benefitsRepository.findAllByEmployeeId(employeeId);
+      benefitsList.addAll(benefitsEntities);
+
+      body = new GetEmployeeResponseDto(employeesEntity, benefitsList);
+
+  } catch (Exception exception) {
+        exception.printStackTrace();
+        return CustomResponse.databaseError();
+    }
+
+      return ResponseEntity.status(HttpStatus.OK).body(body);
 
   }
 
