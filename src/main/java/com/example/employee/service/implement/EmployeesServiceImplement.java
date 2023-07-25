@@ -15,8 +15,10 @@ import com.example.employee.dto.request.employee.PostEmployeeRequestDto;
 import com.example.employee.dto.response.ResponseDto;
 import com.example.employee.dto.response.employee.GetEmployeeListResponseDto;
 import com.example.employee.dto.response.employee.GetEmployeeResponseDto;
+import com.example.employee.dto.response.employee.PostEmployeeResponseDto;
 import com.example.employee.entity.BenefitsEntity;
 import com.example.employee.entity.EmployeesEntity;
+import com.example.employee.entity.resultSet.EmployeeListResultSet;
 import com.example.employee.service.EmployeesService;
 import com.example.employee.repository.BenefitsRepository;
 import com.example.employee.repository.EmployeesRepository;
@@ -34,7 +36,6 @@ public EmployeesServiceImplement(EmployeesRepository employeesRepository, Benefi
 
   @Override
   public ResponseEntity<ResponseDto> postEmployee(@Valid PostEmployeeRequestDto dto) {
-    ResponseDto responseBody = null;
 
     List<String> benefits = dto.getBenefits();
     List<BenefitsEntity> benefitsList = new ArrayList<>();
@@ -53,12 +54,17 @@ public EmployeesServiceImplement(EmployeesRepository employeesRepository, Benefi
 
         benefitsRepository.saveAll(benefitsList);
 
+        PostEmployeeResponseDto responseBody = new PostEmployeeResponseDto();
+        responseBody.setCode("SU");
+        responseBody.setMessage("SUCCESS");
+        responseBody.setEmployeeId(employeeId);       
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+
     } catch(Exception exception) {
         exception.printStackTrace();
         return CustomResponse.databaseError();
     }
-        // 사원 등록 성공
-        return CustomResponse.success();
   }
 
   @Override
@@ -91,14 +97,39 @@ public EmployeesServiceImplement(EmployeesRepository employeesRepository, Benefi
 
   @Override
   public ResponseEntity<? super GetEmployeeListResponseDto> getEmployeeList() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getEmployeeList'");
+
+    GetEmployeeListResponseDto body = null;
+
+    try {
+
+        List<EmployeeListResultSet> resultSets = employeesRepository.getEmployeeList();
+        body = new GetEmployeeListResponseDto(resultSets);
+
+    } catch (Exception exception){
+        exception.printStackTrace();
+        return CustomResponse.databaseError();
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(body);
+
   }
 
   @Override
   public ResponseEntity<ResponseDto> patchEmployeeInfo(@Valid PatchEmployeeInfoRequestDto requestBody) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'patchEmployeeInfo'");
+
+    Integer employeeId = requestBody.getEmployeeId();
+    String name = requestBody.getName();
+    String position = requestBody.getPosition();
+    String department = requestBody.getDepartment();
+    String dateOfHire = requestBody.getDateOfHire();
+    Integer salary = requestBody.getSalary();
+    List<String> benefitList = requestBody.getBenefits();
+    List<BenefitsEntity> employeeBenefitList = new ArrayList<>();
+    String workingHours = requestBody.getWorkingHours();
+    String status = requestBody.getStatus();
+
+    return CustomResponse.success();
+
   }
 
   @Override
